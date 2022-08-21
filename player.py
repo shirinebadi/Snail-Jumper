@@ -1,4 +1,5 @@
 import random
+import numpy as np
 
 import pygame
 from variables import global_variables
@@ -10,8 +11,8 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
 
         # loading images
-        player_walk1 = pygame.image.load('Graphics/Player/player_walk_1.png').convert_alpha()
-        player_walk2 = pygame.image.load('Graphics/Player/player_walk_2.png').convert_alpha()
+        player_walk1 = pygame.image.load('SnailJumper/Graphics/Player/player_walk_1.png').convert_alpha()
+        player_walk2 = pygame.image.load('SnailJumper/Graphics/Player/player_walk_2.png').convert_alpha()
 
         # rotating -90 degree and scaling by factor of 0.5
         player_walk1 = pygame.transform.rotozoom(player_walk1, -90, 0.5)
@@ -35,7 +36,7 @@ class Player(pygame.sprite.Sprite):
         if self.game_mode == "Neuroevolution":
             self.fitness = 0  # Initial fitness
 
-            layer_sizes = [3, 10, 2]  # TODO (Design your architecture here by changing the values)
+            layer_sizes = [10, 18, 2]  # TODO (Design your architecture here by changing the values)
             self.nn = NeuralNetwork(layer_sizes)
 
     def think(self, screen_width, screen_height, obstacles, player_x, player_y):
@@ -54,7 +55,67 @@ class Player(pygame.sprite.Sprite):
         # TODO (change player's gravity here by calling self.change_gravity)
 
         # This is a test code that changes the gravity based on a random number. Remove it before your implementation.
-        if random.randint(0, 2):
+
+        x1 = screen_width/4
+        x2 = 2*player_x/4
+        x4 = 3 * player_x/4
+        x3 = 3 * player_x/2
+
+        y1 = 2*screen_height/4
+        y3 = screen_height/4
+        y2 = 3 * screen_height/4
+        y4 = 3 * screen_height/2
+
+        if len(obstacles)>=4:
+            x1 = obstacles[0]['x']
+            x2 = obstacles[1]['x']
+            x3 = obstacles[2]['x']
+            x4 = obstacles[3]['x']
+
+            y1 = obstacles[0]['y']
+            y2 = obstacles[1]['y']
+            y3 = obstacles[2]['y']
+            y3 = obstacles[3]['y']
+
+        if len(obstacles) == 3: 
+            x1 = obstacles[0]['x']
+            x2 = obstacles[1]['x']
+            x3 = obstacles[2]['x']
+            ##x4 = obstacles[3]['x']
+
+            y1 = obstacles[0]['y']
+            y2 = obstacles[1]['y']
+            y3 = obstacles[2]['y']
+            ##y3 = obstacles[3]['y']
+
+        if len(obstacles) == 2: 
+            x1 = obstacles[0]['x']
+            x2 = obstacles[1]['x']
+            ##x3 = obstacles[2]['x']
+            ##x4 = obstacles[3]['x']
+
+            y1 = obstacles[0]['y']
+            y2 = obstacles[1]['y']
+            ##y3 = obstacles[2]['y']
+            ##y3 = obstacles[3]['y']
+
+        if len(obstacles) == 1: 
+            x1 = obstacles[0]['x']
+            ##x2 = obstacles[1]['x']
+            ##x3 = obstacles[2]['x']
+            ##x4 = obstacles[3]['x']
+
+            y1 = obstacles[0]['y']
+            ##y2 = obstacles[1]['y']
+            ##y3 = obstacles[2]['y']
+            ##y3 = obstacles[3]['y']
+
+        input = np.array([x1, x2, x3, x4, y1, y2, y3,y4, player_x, player_y])
+        norm = np.linalg.norm(input)
+
+        i = np.argmax(self.nn.forward((input/norm).reshape(len(input),1)))
+
+        if i == 0:
             self.change_gravity('left')
         else:
             self.change_gravity('right')

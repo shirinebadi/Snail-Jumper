@@ -33,8 +33,8 @@ class Obstacle(pygame.sprite.Sprite):
         super().__init__()
 
         if obstacle_type == "snail":
-            snail_1 = pygame.image.load('Graphics/Snail/snail1.png').convert_alpha()
-            snail_2 = pygame.image.load('Graphics/Snail/snail2.png').convert_alpha()
+            snail_1 = pygame.image.load('SnailJumper/Graphics/Snail/snail1.png').convert_alpha()
+            snail_2 = pygame.image.load('SnailJumper/Graphics/Snail/snail2.png').convert_alpha()
 
             # rotating -90 degree and scaling by factor of 0.5
             snail_1 = pygame.transform.rotozoom(snail_1, -90, 0.5)
@@ -58,8 +58,8 @@ class Obstacle(pygame.sprite.Sprite):
             else:
                 self.rect = self.image.get_rect(midright=(430, randint(-100, -50)))
         else:
-            fly_1 = pygame.image.load('Graphics/Fly/Fly1.png').convert_alpha()
-            fly_2 = pygame.image.load('Graphics/Fly/Fly2.png').convert_alpha()
+            fly_1 = pygame.image.load('SnailJumper/Graphics/Fly/Fly1.png').convert_alpha()
+            fly_2 = pygame.image.load('SnailJumper/Graphics/Fly/Fly2.png').convert_alpha()
 
             fly_1 = pygame.transform.rotozoom(fly_1, 0, 0.5)
             fly_2 = pygame.transform.rotozoom(fly_2, 0, 0.5)
@@ -136,9 +136,9 @@ if __name__ == '__main__':
     screen = pygame.display.set_mode((global_variables['screen_width'], global_variables['screen_height']))
     pygame.display.set_caption(global_variables['title'])
     clock = pygame.time.Clock()
-    game_font = pygame.font.Font('Font/PixelType.ttf', 40)
-    small_game_font = pygame.font.Font('Font/PixelType.ttf', 30)
-    title_font = pygame.font.Font('Font/PixelType.ttf', 80)
+    game_font = pygame.font.Font('SnailJumper/Font/PixelType.ttf', 40)
+    small_game_font = pygame.font.Font('SnailJumper/Font/PixelType.ttf', 30)
+    title_font = pygame.font.Font('SnailJumper/Font/PixelType.ttf', 80)
 
     game_active = False
     evolution = Evolution()
@@ -148,7 +148,7 @@ if __name__ == '__main__':
     best_score = 0
     num_players = 150
 
-    background_surface = pygame.image.load('Graphics/Background.jpg').convert()
+    background_surface = pygame.image.load('SnailJumper/Graphics/Background.jpg').convert()
 
     # Players
     players = None
@@ -160,7 +160,7 @@ if __name__ == '__main__':
     global_variables['obstacle_groups'] = obstacle_group
 
     # Intro screen
-    player_stand = pygame.image.load('Graphics/Player/player_stand.png').convert_alpha()
+    player_stand = pygame.image.load('SnailJumper/Graphics/Player/player_stand.png').convert_alpha()
     player_stand = pygame.transform.rotozoom(player_stand, 0, 3)
     player_stand_rect = player_stand.get_rect(center=(global_variables['screen_width'] // 2, 250))
 
